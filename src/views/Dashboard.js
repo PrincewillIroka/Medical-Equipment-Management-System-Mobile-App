@@ -5,43 +5,32 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from 'react-native'
-import { BackHandler } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { Table, TableWrapper, Row, Cell } from 'react-native-table-component'
+import { setData } from '../store/actions'
+import { connect } from 'react-redux'
+import axios from 'axios'
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      tableHead: ['S/N', 'Department', 'Complaint', 'No. Required', 'Fixed'],
+      tableHead: ['S/N', 'Department', 'Complaint', 'No. Required', ''],
       tableData: [
         ['1', '2', '3', '4', ''],
         ['a', 'b', 'c', 'd', ''],
         ['1', '2', '3', '4', ''],
         ['a', 'b', 'c', 'd', '']
-      ]
+      ],
+      isLoading: true
     }
   }
 
-  componentDidMount() {
-    // BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed)
-  }
-
-  componentWillUnmount() {
-    // BackHandler.removeEventListener(
-    //   'hardwareBackPress',
-    //   this.onBackButtonPressed
-    // )
-  }
-
-  onBackButtonPressed() {
-    // return true
-  }
-
-  _alertIndex(index) {
+  alertIndex(index) {
     Alert.alert(`This is row ${index + 1}`)
   }
 
@@ -52,9 +41,9 @@ export default class Dashboard extends Component {
   render() {
     const state = this.state
     const element = (data, index) => (
-      <TouchableOpacity onPress={() => this._alertIndex(index)}>
+      <TouchableOpacity onPress={() => this.alertIndex(index)}>
         <View style={styles.btn}>
-          <Text style={styles.btnText}>button</Text>
+          <Text style={styles.btnText}>Mark as fixed</Text>
         </View>
       </TouchableOpacity>
     )
@@ -106,6 +95,25 @@ export default class Dashboard extends Component {
   }
 }
 
+mapStateToProps = state => {
+  return {
+    equipmentRequests: state.userReducer.equipmentRequests
+  }
+}
+
+mapDispatchToProps = dispatch => {
+  return {
+    setData: (user, equipmentRequests) => {
+      dispatch(setData(user, equipmentRequests))
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard)
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -135,9 +143,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff'
   },
-  head: { height: 40, backgroundColor: '#eee' },
-  text: { margin: 6 },
-  row: { flexDirection: 'row' },
-  btn: { width: 58, height: 18, backgroundColor: '#78B7BB', borderRadius: 2 },
-  btnText: { textAlign: 'center', color: '#fff' }
+  head: { height: 40, backgroundColor: '#ccc', marginBottom: 20 },
+  text: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 100,
+    textAlign: 'center'
+  },
+  row: { flexDirection: 'row', marginBottom: 20 },
+  btn: { backgroundColor: '#3089f9', borderRadius: 3 },
+  btnText: {
+    textAlign: 'center',
+    color: '#fff',
+    paddingLeft: 7,
+    paddingRight: 7,
+    paddingTop: 5,
+    paddingBottom: 5
+  }
 })

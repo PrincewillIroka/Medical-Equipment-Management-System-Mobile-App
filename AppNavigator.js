@@ -2,6 +2,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createAppContainer } from 'react-navigation'
 import Login from './src/views/Login'
 import Dashboard from './src/views/Dashboard'
+import SplashScreen from './src/views/SplashScreen'
 
 const NavigationStack = createStackNavigator(
   {
@@ -15,15 +16,19 @@ const NavigationStack = createStackNavigator(
       screen: Dashboard,
       navigationOptions: {
         title: 'Medical Equipment Mngt. System',
-        headerLeft: null,
-        gesturesEnabled: false,
         headerTitleStyle: { color: '#fff' },
-        headerStyle: { backgroundColor: '#3089f1' }
+        headerStyle: { backgroundColor: '#3089f9' }
+      }
+    },
+    SplashScreen: {
+      screen: SplashScreen,
+      navigationOptions: {
+        header: null
       }
     }
   },
   {
-    initialRouteName: 'Login'
+    initialRouteName: 'SplashScreen'
   }
 )
 
