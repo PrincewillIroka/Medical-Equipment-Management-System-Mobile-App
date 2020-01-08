@@ -1,5 +1,7 @@
 ### MedicalEquipmentManagementSystemMobileApp
 A React Native app serves as a dashboard for users in the Biomedical Engineering department of the Medical Equipment App (http://medical-equipment--system.herokuapp.com/)
+### Technologies
+- React Native
 ### Author
 Developed by [Princewill Iroka](https://princewilliroka.com/).
 ### License
